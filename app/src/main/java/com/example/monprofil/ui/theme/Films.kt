@@ -14,12 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Films(windowClass: WindowSizeClass){
-    when (windowClass.widthSizeClass) {
-        WindowWidthSizeClass.Compact -> {
+fun FilmsScreen(){
                 Text(text = "Liste films")
-                
-            }
-        }
+
 }
 
