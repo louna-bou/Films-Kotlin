@@ -1,4 +1,4 @@
-package com.example.monprofil.ui.theme
+package com.example.monprofil
 
 import androidx.compose.material.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass

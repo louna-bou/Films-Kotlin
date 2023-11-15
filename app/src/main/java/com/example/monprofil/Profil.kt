@@ -1,4 +1,4 @@
-package com.example.monprofil.ui.theme
+package com.example.monprofil
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -24,8 +24,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
-import com.example.monprofil.R
 
 
 @Composable
