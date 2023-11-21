@@ -139,7 +139,7 @@ private fun Menubas(
                     )
                 }
             }
-            composable(Destination.Films.destination) { FilmsScreen(viewModel) }
+            composable(Destination.Films.destination) { FilmsScreen(viewModel,windowSizeClass) }
             composable(Destination.Series.destination) { SeriesScreen() }
             composable(Destination.Acteurs.destination) { ActeursScreen() }
         }
