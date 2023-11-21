@@ -139,9 +139,10 @@ private fun Menubas(
                     )
                 }
             }
-            composable(Destination.Films.destination) { FilmsScreen(viewModel,windowSizeClass) }
+            composable(Destination.Films.destination) { FilmsScreen(viewModel,windowSizeClass){id -> navController.navigate("film/$id")} }
             composable(Destination.Series.destination) { SeriesScreen(viewModel,windowSizeClass) }
             composable(Destination.Acteurs.destination) { ActeursScreen(viewModel,windowSizeClass) }
+            composable(Destination.DetailFilm.destination) { FilmScreen(viewModel) }
         }
     }
 }
@@ -156,6 +157,7 @@ sealed class Destination(
     object Films : Destination("films", "Films", Icons.Filled.Home)
     object Series : Destination("series", "Séries", Icons.Filled.Info)
     object Acteurs : Destination("acteurs", "Acteurs", Icons.Filled.Person)
+    object DetailFilm : Destination("film", "DetailFilm", Icons.Filled.Home)
 }
 
 

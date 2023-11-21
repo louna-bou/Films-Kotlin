@@ -26,6 +26,7 @@ class MainViewModel : ViewModel() {
     val movies = MutableStateFlow<List<TmdbMovie>>(listOf())
     val series=MutableStateFlow<List<TmdbTv>>(listOf())
     val acteurs= MutableStateFlow<List<TmdbActor>>(listOf())
+
     fun getMovies() {
         viewModelScope.launch {
             movies.value = api.lastmovies("73fbeeb046f41168a80509da0ee03c8c").results
