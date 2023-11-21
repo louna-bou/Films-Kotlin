@@ -30,24 +30,19 @@ fun FilmsScreen(viewModel: MainViewModel){
     // Pour n'appeler viewModel.getMovies() qu'une seule fois = première apparition du composant Films
     LaunchedEffect(key1 = true) { viewModel.getMovies() }
 
-    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+    LazyVerticalGrid(columns = GridCells.Fixed(2), horizontalArrangement = Arrangement.spacedBy(16.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
     for (movie in movies){
         items(1){
         val imageURL = "https://image.tmdb.org/t/p/w780/"+ movie.poster_path
+
         Column() {
-
-
         AsyncImage(
             model = imageURL,
-            /**   placeholder = painterResource(id = R.drawable.sudoimage),
-            error = painterResource(id = R.drawable.sudoimage),**/
-         /**   placeholder = painterResource(id = R.drawable.sudoimage),
-            error = painterResource(id = R.drawable.sudoimage),**/
             contentDescription = movie.original_title,
         )
         Text(
             text = movie.original_title,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.titleMedium
 
         )
             Spacer(Modifier.width(5.dp))
