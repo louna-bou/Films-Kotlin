@@ -24,9 +24,15 @@ class MainViewModel : ViewModel() {
     val api = retrofit.create(Api::class.java)
 
     val movies = MutableStateFlow<List<TmdbMovie>>(listOf())
+    val series=MutableStateFlow<List<TmdbTv>>(listOf())
     fun getMovies() {
         viewModelScope.launch {
             movies.value = api.lastmovies("73fbeeb046f41168a80509da0ee03c8c").results
+        }
+    }
+    fun getSeries() {
+        viewModelScope.launch {
+            series.value = api.lasttv("73fbeeb046f41168a80509da0ee03c8c").results
         }
     }
 
