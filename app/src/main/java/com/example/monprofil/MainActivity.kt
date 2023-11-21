@@ -141,7 +141,7 @@ private fun Menubas(
             }
             composable(Destination.Films.destination) { FilmsScreen(viewModel,windowSizeClass) }
             composable(Destination.Series.destination) { SeriesScreen(viewModel,windowSizeClass) }
-            composable(Destination.Acteurs.destination) { ActeursScreen() }
+            composable(Destination.Acteurs.destination) { ActeursScreen(viewModel,windowSizeClass) }
         }
     }
 }
