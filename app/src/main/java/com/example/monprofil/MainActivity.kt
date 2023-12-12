@@ -142,7 +142,7 @@ private fun Menubas(
             composable(Destination.Films.destination) { FilmsScreen(viewModel,windowSizeClass){id -> navController.navigate("film/$id")} }
             composable(Destination.Series.destination) { SeriesScreen(viewModel,windowSizeClass) }
             composable(Destination.Acteurs.destination) { ActeursScreen(viewModel,windowSizeClass) }
-            composable(Destination.DetailFilm.destination) { FilmScreen(viewModel) }
+            composable("film/{id}") { backStackEntry -> FilmScreen(backStackEntry.arguments?.getString("id")?:"",windowSizeClass,viewModel) }
         }
     }
 }

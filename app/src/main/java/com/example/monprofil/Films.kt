@@ -24,11 +24,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 
 @Composable
-fun FilmsScreen(viewModel: MainViewModel, windowClass: WindowSizeClass, navController: NavHostController) {
+fun FilmsScreen(
+    viewModel: MainViewModel,
+    windowClass: WindowSizeClass,
+    navController: (Any) -> Unit
+) {
 // Observation dans un composant compose, transforme le MutableStateFlow en une liste
     val movies by viewModel.movies.collectAsStateWithLifecycle()
 
@@ -41,7 +44,8 @@ fun FilmsScreen(viewModel: MainViewModel, windowClass: WindowSizeClass, navContr
                 columns = GridCells.Fixed(2),
                 horizontalArrangement = Arrangement.spacedBy(30.dp),
                 modifier = Modifier.padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(30.dp), content = CardFilm(movies,navController)
+                verticalArrangement = Arrangement.spacedBy(30.dp),
+                content = CardFilm(movies, navController)
             )
         }
 
@@ -50,35 +54,42 @@ fun FilmsScreen(viewModel: MainViewModel, windowClass: WindowSizeClass, navContr
                 columns = GridCells.Fixed(3),
                 horizontalArrangement = Arrangement.spacedBy(30.dp),
                 modifier = Modifier.padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(30.dp), content = CardFilm(movies, )
+                verticalArrangement = Arrangement.spacedBy(30.dp),
+                content = CardFilm(movies, navController)
             )
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CardFilm(movies: List<TmdbMovie>,onClick : (id:Int)->Unit): LazyGridScope.() -> Unit =
+private fun CardFilm(
+    movies: List<TmdbMovie>,
+    onClick: (id: Int) -> Unit
+): LazyGridScope.() -> Unit =
     {
         for (movie in movies) {
             items(1) {
                 val imageURL = "https://image.tmdb.org/t/p/w780/" + movie.poster_path
                 ElevatedCard(
-                    onClick={onClick(movie.id)},
+                    onClick = { onClick(movie.id) },
+                    //onClick = {navController.navigate("film/${movie.id}")},
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 5.dp
 
-                    )){
-                    Column(horizontalAlignment = Alignment.CenterHorizontally){
-                    AsyncImage(
-                        model = imageURL,
-                        contentDescription = movie.original_title
                     )
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        AsyncImage(
+                            model = imageURL,
+                            contentDescription = movie.original_title
+                        )
                         Spacer(Modifier.height(8.dp))
                         Text(
                             text = movie.original_title,
                             style = MaterialTheme.typography.titleMedium
                         )
-                }
+                    }
                     Spacer(Modifier.height(10.dp))
                     Row() {
                         Spacer(Modifier.width(10.dp))
