@@ -142,8 +142,8 @@ private fun Menubas(
             composable(Destination.Films.destination) { FilmsScreen(viewModel,windowSizeClass){id -> navController.navigate("film/$id")} }
             composable(Destination.Series.destination) { SeriesScreen(viewModel,windowSizeClass){id -> navController.navigate("tv/$id")}  }
             composable(Destination.Acteurs.destination) { ActeursScreen(viewModel,windowSizeClass){id -> navController.navigate("person/$id")} }
-            composable("film/{id}") { backStackEntry -> FilmScreen(backStackEntry.arguments?.getString("id")?:"",windowSizeClass,viewModel) }
-            composable("tv/{id}") { backStackEntry -> SerieScreen(backStackEntry.arguments?.getString("id")?:"",windowSizeClass,viewModel) }
+            composable("film/{id}") { backStackEntry -> FilmScreen(backStackEntry.arguments?.getString("id")?:"",windowSizeClass,viewModel){id -> navController.navigate("person/$id")} }
+            composable("tv/{id}") { backStackEntry -> SerieScreen(backStackEntry.arguments?.getString("id")?:"",windowSizeClass,viewModel) {id -> navController.navigate("person/$id")}}
             composable("person/{id}") { backStackEntry -> ActeurScreen(backStackEntry.arguments?.getString("id")?:"",windowSizeClass,viewModel) }
         }
     }

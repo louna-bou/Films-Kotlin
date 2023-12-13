@@ -29,6 +29,7 @@ class MainViewModel : ViewModel() {
     val movie= MutableStateFlow<TmdbMovieDetail>(TmdbMovieDetail())
     val serie= MutableStateFlow<TmdbTvDetail>(TmdbTvDetail())
     val acteur= MutableStateFlow<TmdbPersonDetail>(TmdbPersonDetail())
+    val actor= MutableStateFlow< List<CastFilm>> (listOf())
 
 
     fun getMovies() {

@@ -23,4 +23,5 @@ interface Api {
 
     @GET("person/{id}?")
     suspend fun person(@Path("id") id:String, @Query("api_key") api_key: String): TmdbPersonDetail
+
 }
