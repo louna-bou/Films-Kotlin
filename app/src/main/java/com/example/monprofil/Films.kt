@@ -73,7 +73,6 @@ private fun CardFilm(
                 val imageURL = "https://image.tmdb.org/t/p/w780/" + movie.poster_path
                 ElevatedCard(
                     onClick = { onClick(movie.id) },
-                    //onClick = {navController.navigate("film/${movie.id}")},
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 5.dp
 
