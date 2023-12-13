@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Text
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -26,7 +27,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 
 @Composable
-fun ActeursScreen(viewModel: MainViewModel,windowClass: WindowSizeClass){
+fun ActeursScreen(viewModel: MainViewModel,windowClass: WindowSizeClass,navController: (Any) -> Unit
+){
     // Observation dans un composant compose, transforme le MutableStateFlow en une liste
     val acteurs by viewModel.acteurs.collectAsStateWithLifecycle()
 
@@ -39,7 +41,8 @@ fun ActeursScreen(viewModel: MainViewModel,windowClass: WindowSizeClass){
                 columns = GridCells.Fixed(2),
                 horizontalArrangement = Arrangement.spacedBy(30.dp),
                 modifier = Modifier.padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(30.dp), content = CardActeur(acteurs)
+                verticalArrangement = Arrangement.spacedBy(30.dp),
+                content = CardActeur(acteurs, navController)
             )
         }
 
@@ -48,19 +51,22 @@ fun ActeursScreen(viewModel: MainViewModel,windowClass: WindowSizeClass){
                 columns = GridCells.Fixed(3),
                 horizontalArrangement = Arrangement.spacedBy(30.dp),
                 modifier = Modifier.padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(30.dp), content = CardActeur(acteurs)
+                verticalArrangement = Arrangement.spacedBy(30.dp), content = CardActeur(acteurs, navController)
             )
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CardActeur(acteurs: List<TmdbActor>): LazyGridScope.() -> Unit =
+private fun CardActeur(acteurs: List<TmdbActor>,onClick: (id: Int) -> Unit
+): LazyGridScope.() -> Unit =
     {
         for (acteur in acteurs) {
             items(1) {
                 val imageURL = "https://image.tmdb.org/t/p/w780/" + acteur.profile_path
                 ElevatedCard(
+                    onClick = { onClick(acteur.id) },
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 5.dp
                     )

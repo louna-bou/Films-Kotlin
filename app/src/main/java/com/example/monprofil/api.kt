@@ -17,4 +17,10 @@ interface Api {
 
     @GET("movie/{id}?append_to_response=credits")
     suspend fun movie(@Path("id") id:String, @Query("api_key") api_key: String): TmdbMovieDetail
+
+    @GET("tv/{id}?append_to_response=credits")
+    suspend fun tv(@Path("id") id:String, @Query("api_key") api_key: String): TmdbTvDetail
+
+    @GET("person/{id}?")
+    suspend fun person(@Path("id") id:String, @Query("api_key") api_key: String): TmdbPersonDetail
 }

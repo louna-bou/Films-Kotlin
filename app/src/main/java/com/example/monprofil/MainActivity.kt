@@ -140,9 +140,11 @@ private fun Menubas(
                 }
             }
             composable(Destination.Films.destination) { FilmsScreen(viewModel,windowSizeClass){id -> navController.navigate("film/$id")} }
-            composable(Destination.Series.destination) { SeriesScreen(viewModel,windowSizeClass) }
-            composable(Destination.Acteurs.destination) { ActeursScreen(viewModel,windowSizeClass) }
+            composable(Destination.Series.destination) { SeriesScreen(viewModel,windowSizeClass){id -> navController.navigate("tv/$id")}  }
+            composable(Destination.Acteurs.destination) { ActeursScreen(viewModel,windowSizeClass){id -> navController.navigate("person/$id")} }
             composable("film/{id}") { backStackEntry -> FilmScreen(backStackEntry.arguments?.getString("id")?:"",windowSizeClass,viewModel) }
+            composable("tv/{id}") { backStackEntry -> SerieScreen(backStackEntry.arguments?.getString("id")?:"",windowSizeClass,viewModel) }
+            composable("person/{id}") { backStackEntry -> ActeurScreen(backStackEntry.arguments?.getString("id")?:"",windowSizeClass,viewModel) }
         }
     }
 }
@@ -157,7 +159,6 @@ sealed class Destination(
     object Films : Destination("films", "Films", Icons.Filled.Home)
     object Series : Destination("series", "Séries", Icons.Filled.Info)
     object Acteurs : Destination("acteurs", "Acteurs", Icons.Filled.Person)
-    object DetailFilm : Destination("film", "DetailFilm", Icons.Filled.Home)
 }
 
 
