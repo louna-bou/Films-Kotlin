@@ -1,12 +1,17 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.monprofil
 
 import android.annotation.SuppressLint
+import android.media.Image
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -14,13 +19,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -29,6 +37,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -41,10 +51,18 @@ import com.example.monprofil.ui.theme.Blue01
 import com.example.monprofil.ui.theme.MonProfilTheme
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel: MainViewModel = MainViewModel()
+
+        @Composable
+        fun MyAppBarWithActions() {
+            TopAppBar(
+                title = { Text("My App") }
+            )
+        }
+
         setContent {
 
             MonProfilTheme {
@@ -68,6 +86,9 @@ class MainActivity : ComponentActivity() {
             )
             when (windowSizeClass.widthSizeClass) {
                 WindowWidthSizeClass.Compact -> {
+
+                        MyAppBarWithActions()
+
                     Menubas(
                         destinations,
                         currentDestination,
@@ -79,11 +100,13 @@ class MainActivity : ComponentActivity() {
                 }
 
                 else -> {
+
                     Row() {
-                        NavigationRail(modifier = Modifier.width(100.dp)) {
+                        NavigationRail(modifier = Modifier.width(100.dp),
+                            ) {
                             destinations.forEach { screen ->
                                 NavigationRailItem(
-                                    icon = { Icon(screen.icon, contentDescription = null) },
+                                    icon = {screen.icon() },
                                     label = { Text(screen.label) },
                                     selected = currentDestination?.hierarchy?.any { it.route == screen.destination } == true,
                                     onClick = { navController.navigate(screen.destination) }
@@ -104,6 +127,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+
 @SuppressLint("SuspiciousIndentation")
 @Composable
 private fun Menubas(
@@ -115,17 +140,19 @@ private fun Menubas(
 ) {
     Scaffold(
         bottomBar = {
-            if (windowSizeClass.widthSizeClass==WindowWidthSizeClass.Compact)
-            BottomNavigation(backgroundColor = Blue01) {
-                destinations.forEach { screen ->
-                    BottomNavigationItem(
-                        icon = { Icon(screen.icon, contentDescription = null) },
-                        label = { Text(screen.label) },
-                        selected =
-                        currentDestination?.hierarchy?.any { it.route == screen.destination } == true,
-                        onClick = { navController.navigate(screen.destination) })
-                }
-            }
+            if (currentDestination?.hierarchy?.any { it.route == Destination.Profil.destination } != true) {
+                    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact){
+                        BottomNavigation(backgroundColor = Blue01) {
+                            destinations.forEach { screen ->
+                                BottomNavigationItem(
+                                    icon = {screen.icon() },
+                                    label = { Text(screen.label) },
+                                    selected =
+                                    currentDestination?.hierarchy?.any { it.route == screen.destination } == true,
+                                    onClick = { navController.navigate(screen.destination) })
+                            }
+                        }
+                }}
         })
     { innerPadding ->
         NavHost(
@@ -153,12 +180,33 @@ private fun Menubas(
 sealed class Destination(
     val destination: String,
     val label: String,
-    val icon: ImageVector
+    val icon: @Composable () -> Unit
+
 ) {
-    object Profil : Destination("profil", "Profil", Icons.Filled.Person)
-    object Films : Destination("films", "Films", Icons.Filled.Home)
-    object Series : Destination("series", "Séries", Icons.Filled.Info)
-    object Acteurs : Destination("acteurs", "Acteurs", Icons.Filled.Person)
+    object Profil : Destination("profil", "Profil", {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_person_24),
+            contentDescription = null,
+        )
+    })
+    object Films : Destination("films", "Films", {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_movie_24),
+            contentDescription = null,
+        )
+    })
+    object Series : Destination("series", "Séries", {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_tv_24),
+            contentDescription = null,
+        )
+    })
+    object Acteurs : Destination("acteurs", "Acteurs", {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_star_border_24),
+            contentDescription = null,
+        )
+    })
 }
 
 

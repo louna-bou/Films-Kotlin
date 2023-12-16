@@ -84,6 +84,8 @@ private fun detailActeur(acteur:TmdbPersonDetail): LazyGridScope.() -> Unit = {
                     text = acteur.biography,
                     textAlign = TextAlign.Justify
                 )
+
+
             }
         }
     }}
